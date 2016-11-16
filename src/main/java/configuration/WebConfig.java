@@ -13,8 +13,10 @@ import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 @EnableWebMvc
-@Import(ApplicationConfiguration.class)
+@Import(AppConfig.class)
 @WebAppConfiguration
 public class WebConfig extends WebMvcConfigurerAdapter {
 
@@ -23,14 +25,15 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		converters.add(converter());
 	}
 
-	// @Bean
-	// public ObjectMapper objectMapper() {
-	// return new ObjectMapper();
-	// }
+	@Bean
+	public ObjectMapper objectMapper() {
+		return new ObjectMapper();
+	}
 
 	@Bean
 	MappingJackson2HttpMessageConverter converter() {
 		MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+		converter.setPrettyPrint(true); // uncomment this?
 		return converter;
 	}
 
