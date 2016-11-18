@@ -2,83 +2,70 @@ package configuration;
 
 import java.util.Properties;
 
-import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
-import org.hsqldb.persist.HsqlProperties;
+import org.apache.commons.dbcp.BasicDataSource;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.orm.jpa.JpaVendorAdapter;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
-import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@ComponentScan(basePackages = { "controller" })
 @EnableTransactionManagement
+@ComponentScan(basePackages = { "controller" })
+@PropertySource(value = {"classpath:hibernate.properties", "classpath:application.properties"})
 public class AppConfig {
 
 	@Autowired
-	private Environment environment;
-	
-	@Bean
-	public DataSource dataSource() {
-		return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.HSQL).addScript("classpath:schema.sql")
-				.addScript("classpath:test-data.sql").build();
-	}
+	private Environment env;
 
-	@Bean
-	public HsqlProperties hsqlProperties() {
-		
-		//get properties from application.properties via environment 
-		
-		HsqlProperties properties = new HsqlProperties();
-		properties.setProperty("user", "");
-		properties.setProperty("password", "");
-		properties.setProperty("check_props", "true");
-		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
-		properties.setProperty("hibernate.show_sql", "false");
-		properties.setProperty("jpaVendorAdapter", "org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter");
-		properties.setProperty("driverClassName", "org.hsqldb.jdbcDriver");
-		properties.setProperty("hsql.driver", "org.hsqldb.jdbcDriver");
-		properties.setProperty("jpa.database", "test");
+	protected Properties hibernateProperties() {
+		Properties properties = new Properties();
+		properties.setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
+		properties.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
+		properties.setProperty("hibernate.globally_quoted_identifiers", "true");
 		return properties;
 	}
 
 	@Bean
-//	@Required
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource,
-			Properties hsqlProperties) {
-		LocalContainerEntityManagerFactoryBean localEntityManager = new LocalContainerEntityManagerFactoryBean();
-		localEntityManager.setDataSource(dataSource);
-		localEntityManager.setPackagesToScan(new String[] { "model" });
+	public DataSource restDataSource() {
+		BasicDataSource dataSource = new BasicDataSource();
+		dataSource.setDriverClassName(env.getProperty("jdbc.driverClassName"));
+		dataSource.setUrl(env.getProperty("jdbc.url"));
+		dataSource.setUsername(env.getProperty("jdbc.user"));
+		dataSource.setPassword(env.getProperty("jdbc.pass"));
 
-		JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-		localEntityManager.setJpaVendorAdapter(vendorAdapter);
-		localEntityManager.setJpaProperties(hsqlProperties);
-		return localEntityManager;
+		return dataSource;
 	}
 
 	@Bean
-//	@Required
-	public PlatformTransactionManager platformTransactionManager(EntityManagerFactory entityManagerFactory) {
-		JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
-		jpaTransactionManager.setEntityManagerFactory(entityManagerFactory);
+	public LocalSessionFactoryBean sessionFactory() {
+		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+		sessionFactory.setDataSource(restDataSource());
+		sessionFactory.setPackagesToScan(new String[] { "model" });
+		sessionFactory.setHibernateProperties(hibernateProperties());
+		return sessionFactory;
+	}
 
-		return jpaTransactionManager;
+	@Bean
+	@Autowired
+	public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
+		HibernateTransactionManager txManager = new HibernateTransactionManager();
+		txManager.setSessionFactory(sessionFactory);
+
+		return txManager;
 	}
 
 	@Bean
 	public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
 		return new PersistenceExceptionTranslationPostProcessor();
 	}
+
 }

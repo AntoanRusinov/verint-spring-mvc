@@ -14,11 +14,11 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import configuration.AppConfig;
 
-@WebAppConfiguration
-// @ActiveProfiles(profiles = {"dev"})
-// @RunWith(SpringJUnit4ClassRunner.class)
-@RunWith(SpringRunner.class)
-@ContextConfiguration(classes = AppConfig.class)
+//@WebAppConfiguration
+//// @ActiveProfiles(profiles = {"dev"})
+//// @RunWith(SpringJUnit4ClassRunner.class)
+//@RunWith(SpringRunner.class)
+//@ContextConfiguration(classes = AppConfig.class)
 public class HsqlDbOperations {
 
 	@Before
@@ -34,7 +34,7 @@ public class HsqlDbOperations {
 		assertTrue(true);
 	}
 
-	@org.junit.Test
+	@Test
 	// @Rollback
 	// @Repeat(value = 10)
 	// @Timed(millis = 500)
