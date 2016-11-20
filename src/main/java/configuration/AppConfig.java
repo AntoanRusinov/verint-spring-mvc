@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableTransactionManagement
 @ComponentScan(basePackages = { "controller" })
-@PropertySource(value = {"classpath:hibernate.properties", "classpath:application.properties"})
+@PropertySource(value = { "classpath:hibernate.properties" })
 public class AppConfig {
 
 	@Autowired
@@ -31,17 +31,21 @@ public class AppConfig {
 		properties.setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
 		properties.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
 		properties.setProperty("hibernate.globally_quoted_identifiers", "true");
+		properties.setProperty("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
+		properties.setProperty("hibernate.generate-ddl", env.getProperty("hibernate.generate-ddl"));
+		properties.setProperty("hibernate.naming_strategy", env.getProperty("hibernate.naming_strategy"));
+		properties.setProperty("hibernate.format_sql", env.getProperty("hibernate.format_sql"));
+		properties.setProperty("hibernate.use_sql_comments", env.getProperty("hibernate.use_sql_comments"));
 		return properties;
 	}
 
 	@Bean
 	public DataSource restDataSource() {
 		BasicDataSource dataSource = new BasicDataSource();
-		dataSource.setDriverClassName(env.getProperty("jdbc.driverClassName"));
-		dataSource.setUrl(env.getProperty("jdbc.url"));
-		dataSource.setUsername(env.getProperty("jdbc.user"));
-		dataSource.setPassword(env.getProperty("jdbc.pass"));
-
+		dataSource.setDriverClassName(env.getProperty("mysql.driver-class-name"));
+		dataSource.setUrl(env.getProperty("mysql.url"));
+		dataSource.setUsername(env.getProperty("mysql.username"));
+		dataSource.setPassword(env.getProperty("mysql.password"));
 		return dataSource;
 	}
 
@@ -57,10 +61,9 @@ public class AppConfig {
 	@Bean
 	@Autowired
 	public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
-		HibernateTransactionManager txManager = new HibernateTransactionManager();
-		txManager.setSessionFactory(sessionFactory);
-
-		return txManager;
+		HibernateTransactionManager transactionManager = new HibernateTransactionManager();
+		transactionManager.setSessionFactory(sessionFactory);
+		return transactionManager;
 	}
 
 	@Bean

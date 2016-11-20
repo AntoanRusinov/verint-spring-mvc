@@ -20,11 +20,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @WebAppConfiguration
 public class WebConfig extends WebMvcConfigurerAdapter {
 
-	@Override
-	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-		converters.add(converter());
-	}
-
 	@Bean
 	public ObjectMapper objectMapper() {
 		return new ObjectMapper();
@@ -33,8 +28,13 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	@Bean
 	MappingJackson2HttpMessageConverter converter() {
 		MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-		converter.setPrettyPrint(true); // uncomment this?
+		converter.setPrettyPrint(true);
 		return converter;
+	}
+
+	@Override
+	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+		converters.add(converter());
 	}
 
 	@Override

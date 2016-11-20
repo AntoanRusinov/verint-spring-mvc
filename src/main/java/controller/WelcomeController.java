@@ -5,9 +5,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class TestController {
+public class WelcomeController {
 
-	@RequestMapping(value = "/*", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String sayHello() {
 		return "Hello!";
 	}
