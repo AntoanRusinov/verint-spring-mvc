@@ -36,6 +36,17 @@ public class AppConfig {
 		properties.setProperty("hibernate.naming_strategy", env.getProperty("hibernate.naming_strategy"));
 		properties.setProperty("hibernate.format_sql", env.getProperty("hibernate.format_sql"));
 		properties.setProperty("hibernate.use_sql_comments", env.getProperty("hibernate.use_sql_comments"));
+//		properties.setProperty("hibernate.cache.use_second_level_cache",
+//				env.getProperty("hibernate.cache.use_second_level_cache"));
+//		properties.setProperty("hibernate.cache.region.factory_class",
+//				env.getProperty("hibernate.cache.region.factory_class"));
+//		properties.setProperty("hibernate.cache.use_query_cache", env.getProperty("hibernate.cache.use_query_cache"));
+//		properties.setProperty("hibernate.cache.use_minimal_puts", env.getProperty("hibernate.cache.use_minimal_puts"));
+//		properties.setProperty("hibernate.connection.autocommit", env.getProperty("hibernate.connection.autocommit"));
+		// properties.setProperty("", env.getProperty(""));
+		// properties.setProperty("", env.getProperty(""));
+		// properties.setProperty("", env.getProperty(""));
+		// properties.setProperty("", env.getProperty(""));
 		return properties;
 	}
 
