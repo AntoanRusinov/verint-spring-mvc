@@ -3,6 +3,7 @@ package configuration;
 import java.util.List;
 
 import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -24,13 +25,19 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
 	@Override
 	public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
-		configurer.favorPathExtension(false).favorParameter(true);
+		configurer.
+		favorPathExtension(false).
+        favorParameter(true).
+        ignoreAcceptHeader(true).
+        useJaf(false).
+        defaultContentType(MediaType.APPLICATION_JSON).
+        mediaType("json", MediaType.APPLICATION_JSON);
 	}
 
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
 		registry.enableContentNegotiation(new MappingJackson2JsonView());
-		registry.jsp();
+//		registry.jsp();
 	}
 
 }

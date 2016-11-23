@@ -38,6 +38,7 @@
 		<apache-commons-dbcp.version>1.4</apache-commons-dbcp.version>
 		<jadira.version>3.1.0.CR10</jadira.version>
 		<mysql-connector.version>5.1.6</mysql-connector.version>
+		<hikari.version>2.5.1</hikari.version>
 
 	</properties>
 
@@ -129,6 +130,14 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql-connector.version}</version>
+		</dependency>
+
+		<!-- Hikari Connection Pooling -->
+
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+			<version>${hikari.version}</version>
 		</dependency>
 
 		<!-- Jackson Mapping -->

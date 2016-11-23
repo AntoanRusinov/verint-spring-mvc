@@ -25,11 +25,11 @@ public class Article extends BaseEntity {
 
 	@Lob
 	@NotNull
-	@Column(length = 10000)
+	@Column(length = 1000)
 	private String text;
 
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
-	@JoinColumn(name = "author")
+	@JoinColumn(name = "author_id")
 	private User author;
 
 	public String getTitle() {
@@ -75,7 +75,11 @@ public class Article extends BaseEntity {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
+		result = prime * result + ((author == null) ? 0 : author.hashCode());
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + (published ? 1231 : 1237);
+		result = prime * result + ((text == null) ? 0 : text.hashCode());
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		return result;
 	}
@@ -84,11 +88,28 @@ public class Article extends BaseEntity {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		Article other = (Article) obj;
+		if (author == null) {
+			if (other.author != null)
+				return false;
+		} else if (!author.equals(other.author))
+			return false;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (published != other.published)
+			return false;
+		if (text == null) {
+			if (other.text != null)
+				return false;
+		} else if (!text.equals(other.text))
+			return false;
 		if (title == null) {
 			if (other.title != null)
 				return false;
