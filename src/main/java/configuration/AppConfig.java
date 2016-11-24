@@ -16,14 +16,18 @@ import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
+@EnableAsync
+@EnableScheduling
 @EnableTransactionManagement
-@ComponentScan(basePackages = { "controller", "exception" })
+@ComponentScan(basePackages = { "controller", "repository.impl", "service", "exception" })
 @PropertySource(value = { "classpath:application.properties", "classpath:testProps.properties" })
 public class AppConfig {
 

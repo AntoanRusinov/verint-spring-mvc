@@ -37,7 +37,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
 		registry.enableContentNegotiation(new MappingJackson2JsonView());
-//		registry.jsp();
 	}
 
 }
