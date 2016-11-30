@@ -1,5 +1,6 @@
 package configuration;
 
+import java.util.Date;
 import java.util.Properties;
 
 import javax.sql.DataSource;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
@@ -18,6 +20,7 @@ import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.zaxxer.hikari.HikariConfig;
@@ -28,14 +31,22 @@ import com.zaxxer.hikari.HikariDataSource;
 @EnableScheduling
 @EnableTransactionManagement
 @ComponentScan(basePackages = { "controller", "repository.impl", "service", "exception" })
-@PropertySource(value = { "classpath:application.properties", "classpath:testProps.properties" })
+@PropertySource(value = { "classpath:application.properties", "classpath:testProps.properties", "classpath:cron.properties" })
 public class AppConfig {
-
-	@Value(value = "${ala_bala}")
-	private Integer testToShowHowValueAnnotationWorks;
 
 	@Autowired
 	private Environment env;
+	
+	@Value(value = "${ala_bala}")
+	private Integer testToShowHowValueAnnotationWorks;
+	
+	@Scheduled(cron = "${cronExpression}")
+	// @Scheduled(fixedRate = 3000l)
+	// @Scheduled(cron = "0/3 * * * * *")
+	public void doSomethingScheduled() {
+		System.out.println("I'm a scheduler... and I'm activated now "
+				+ new Date(System.currentTimeMillis()));
+	}
 
 	// so that Spring @Value know how to interpret ${}
 	@Bean
