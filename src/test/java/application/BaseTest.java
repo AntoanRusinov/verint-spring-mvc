@@ -1,17 +1,22 @@
 package application;
 
-import javax.sql.DataSource;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import configuration.WebConfig;
 
+//@RunWith(SpringRunner.class)
+//@ContextConfiguration(classes = { WebConfig.class })
+//@WebAppConfiguration
+//@ActiveProfiles(value = "testing")
 public class BaseTest {
 
-	@Bean
-	public DataSource dataSource() {
-		return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.HSQL).addScript("classpath:schema.sql")
-				.addScript("classpath:test-data.sql").build();
-	}
+//	@Bean
+//	public DataSource dataSource() {
+//		return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.HSQL).addScript("classpath:schema.sql")
+//				.addScript("classpath:test-data.sql").build();
+//	}
 	
 }

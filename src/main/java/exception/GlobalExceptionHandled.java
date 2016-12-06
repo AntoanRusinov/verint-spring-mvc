@@ -12,7 +12,7 @@ public class GlobalExceptionHandled {
 	@ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Exception occured! Please try again later :)")
 	public void handleIOException(Exception exception) {
 
-		// you may add some logger here
+		// you may add logger here
 
 		exception.printStackTrace();
 	}
