@@ -25,10 +25,10 @@ public class Article extends BaseEntity {
 
 	@Lob
 	@NotNull
-	@Column(length = 1000)
+	@Column(name = "text")
 	private String text;
 
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
+	@ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
 	@JoinColumn(name = "author_id")
 	private User author;
 

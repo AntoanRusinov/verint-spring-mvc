@@ -6,8 +6,6 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -15,8 +13,6 @@ import org.hibernate.validator.constraints.NotBlank;
 @Table(name = "payment_card")
 public class PaymentCard extends BaseEntity {
 
-	@Max(value = 16)
-	@Min(value = 16)
 	@NotBlank
 	@Column(name = "card_number", length = 16, unique = true)
 	private Integer cardNumber;
