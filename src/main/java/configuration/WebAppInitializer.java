@@ -26,8 +26,12 @@ public class WebAppInitializer implements WebApplicationInitializer {
 
 	private AnnotationConfigWebApplicationContext getContext() {
 		AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
+
+		// you can choose between "testing" and "production"
+		context.getEnvironment().setActiveProfiles("testing");
+		context.register(AppConfig.class);
 		context.register(WebConfig.class);
-		context.register(CachingConfiguration.class);
+		// context.register(CachingConfiguration.class);
 		return context;
 	}
 

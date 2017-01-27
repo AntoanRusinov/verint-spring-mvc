@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<!-- This is actually the name in the URL -->
+	<artifactId>app</artifactId>
+
+	<groupId>application</groupId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+
+	<properties>
+
+		<name>verint-spring-mvc</name>
+		<failOnMissingWebXml>false</failOnMissingWebXml>
+		<description>Demo project for Spring Boot</description>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+
+		<!-- Spring -->
+
+		<spring-framework.version>4.3.4.RELEASE</spring-framework.version>
+		<spring-data-jpa.version>1.10.5.RELEASE</spring-data-jpa.version>
+		<spring-security.version>4.2.0.RELEASE</spring-security.version>
+
+		<!-- Hibernate / JPA -->
+
+		<hibernate.version>4.3.0.Final</hibernate.version>
+
+		<!-- Others -->
+
+		<fasterxml.jackson.version>2.8.4</fasterxml.jackson.version>
+		<joda-time.version>2.9.6</joda-time.version>
+		<junit.version>4.12</junit.version>
+		<hsql.version>1.8.0.10</hsql.version>
+		<servlet.version>3.0.1</servlet.version>
+		<apache-commons-dbcp.version>1.4</apache-commons-dbcp.version>
+		<jadira.version>3.1.0.CR10</jadira.version>
+		<mysql-connector.version>5.1.6</mysql-connector.version>
+		<hikari.version>2.5.1</hikari.version>
+
+	</properties>
+
+	<dependencies>
+
+		<!-- Spring -->
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${spring-framework.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring-framework.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring-framework.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${spring-framework.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring-framework.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${spring-framework.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+			<version>${spring-data-jpa.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${spring-security.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${spring-security.version}</version>
+		</dependency>
+
+		<!-- Testing -->
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring-framework.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+		</dependency>
+
+		<!-- Servlet -->
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>${servlet.version}</version>
+		</dependency>
+
+		<!-- Hibernate -->
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+
+		<!-- MySQL -->
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql-connector.version}</version>
+		</dependency>
+
+		<!-- Hikari Connection Pooling -->
+
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+			<version>${hikari.version}</version>
+		</dependency>
+
+		<!-- Jackson Mapping -->
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${fasterxml.jackson.version}</version>
+		</dependency>
+
+		<!-- HSQL -->
+
+		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>${hsql.version}</version>
+		</dependency>
+
+		<!-- Joda Time -->
+
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>${joda-time.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jadira.usertype</groupId>
+			<artifactId>usertype.core</artifactId>
+			<version>${jadira.version}</version>
+		</dependency>
+
+		<!-- Apache Commons -->
+
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>${apache-commons-dbcp.version}</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.6.0</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+
+		</plugins>
+
+	</build>
+
+</project>

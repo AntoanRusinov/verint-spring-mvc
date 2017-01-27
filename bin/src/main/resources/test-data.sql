@@ -1,0 +1,1 @@
+INSERT INTO users VALUES(1, 'Goshko', 'Avstraliq', 'Avstraliq', 'gosheto_qkiq_pich');

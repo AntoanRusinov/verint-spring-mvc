@@ -7,6 +7,7 @@ import javax.sql.DataSource;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -16,6 +17,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
@@ -32,6 +35,7 @@ import com.zaxxer.hikari.HikariDataSource;
 @EnableAsync
 @EnableScheduling
 @EnableTransactionManagement
+@EnableSpringDataWebSupport
 @ComponentScan(basePackages = { "controller", "repository.impl", "service", "exception" })
 @PropertySource(value = { "classpath:application.properties", "classpath:testProps.properties",
 		"classpath:cron.properties" })
@@ -83,21 +87,25 @@ public class AppConfig {
 		return properties;
 	}
 
-	@Bean
-	@Profile(value = { "testing" })
+	@Bean(name = "testingDataSource")
+	@Profile(value = "testing")
 	// this will be initialized only when "testing" profile is active
 	public DataSource testDataSource() {
-	    return new EmbeddedDatabaseBuilder()
-	        .setType(EmbeddedDatabaseType.HSQL)
-	        .addScript("schema.sql")
-	        .addScript("test-data.sql")
-	        .build();
+
+		System.out.println("PROFILE: TESTING");
+
+		return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.HSQL).setScriptEncoding("UTF-8").
+				addScript("schema.sql").addScript("test-data.sql").build();
 	}
-	
-	@Bean
+
+	@Bean(name = "productionDataSource")
+	@Profile(value = "production")
 	// use HikariCP for performance purpose
 	// this will be default dataSource for production
 	public DataSource dataSource() {
+
+		System.out.println("PROFILE: PRODUCTION");
+
 		HikariConfig hikariConfig = new HikariConfig();
 		hikariConfig.setPoolName("springHikariCP");
 		hikariConfig.setMaximumPoolSize(5);
@@ -114,9 +122,11 @@ public class AppConfig {
 	}
 
 	@Bean
-	public LocalSessionFactoryBean sessionFactory() {
+	@Autowired
+	// @Qualifier must be removed in order to be ok 
+	public LocalSessionFactoryBean sessionFactory(@Qualifier(value = "productionDataSource") DataSource dataSource) {
 		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-		sessionFactory.setDataSource(dataSource());
+		sessionFactory.setDataSource(dataSource);
 		sessionFactory.setPackagesToScan(new String[] { "model" });
 		sessionFactory.setHibernateProperties(hibernateProperties());
 		return sessionFactory;
@@ -133,6 +143,13 @@ public class AppConfig {
 	@Bean
 	public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
 		return new PersistenceExceptionTranslationPostProcessor();
+	}
+
+	@Profile("production")
+	@Bean(name = "mySqlJdbcTemplate")
+	@Autowired
+	public JdbcTemplate mySqlJdbcTemplate(DataSource dataSource) {
+		return new JdbcTemplate(dataSource);
 	}
 
 }
