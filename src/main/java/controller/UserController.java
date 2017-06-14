@@ -17,7 +17,6 @@ public class UserController {
 
 	@RequestMapping(value = "getUserById", method = RequestMethod.GET)
 	public User getUser(Long userId) {
-		//comment to update
 		return userService.getUserById(userId);
 	}
 
