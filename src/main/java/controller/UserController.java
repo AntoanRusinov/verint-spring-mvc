@@ -17,6 +17,7 @@ public class UserController {
 
 	@RequestMapping(value = "getUserById", method = RequestMethod.GET)
 	public User getUser(Long userId) {
+		//comment
 		return userService.getUserById(userId);
 	}
 
